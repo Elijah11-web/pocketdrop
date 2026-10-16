@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fb">
+  <title>PocketDrop — send it to yourself</title>
+  <style>
+    :root{--ink:#152438;--muted:#65758a;--blue:#2865dc;--line:#e5eaf1;--paper:#fff;--bg:#f7f8fb;--green:#15916c}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+    button,input{font:inherit}button{cursor:pointer}.shell{max-width:1040px;margin:auto;padding:28px 24px 52px}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px}.brand{display:flex;gap:11px;align-items:center;font-weight:750;letter-spacing:-.03em;font-size:19px}.mark{width:36px;height:36px;border-radius:12px;background:#e9f0ff;color:var(--blue);display:grid;place-items:center}.mark svg{width:20px}.privacy{color:var(--muted);font-size:13px;display:flex;align-items:center;gap:7px}.dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+    .hero{max-width:660px;margin:0 auto 34px;text-align:center}.eyebrow{color:var(--blue);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.13em}.hero h1{font-size:clamp(34px,6vw,54px);line-height:1.04;letter-spacing:-.055em;margin:13px 0 15px}.hero p{color:var(--muted);font-size:16px;line-height:1.6;margin:0 auto;max-width:520px}
+    .card{max-width:720px;margin:auto;background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:0 18px 55px #1828420a;overflow:hidden}.step{padding:28px 32px}.step+.step{border-top:1px solid var(--line)}.stephead{display:flex;gap:13px;align-items:flex-start;margin-bottom:20px}.num{display:grid;place-items:center;width:27px;height:27px;flex:none;border-radius:50%;background:#edf2fd;color:var(--blue);font-size:13px;font-weight:750}.step h2{margin:1px 0 4px;font-size:17px;letter-spacing:-.02em}.stephead p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}.actions{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-left:40px}.primary,.secondary{border:0;border-radius:11px;padding:12px 16px;font-weight:700;font-size:14px;transition:.15s}.primary{background:var(--blue);color:white;box-shadow:0 3px 8px #2865dc2c}.primary:hover{background:#1d54c3;transform:translateY(-1px)}.secondary{background:white;border:1px solid var(--line);color:var(--ink)}.secondary:hover{background:#f6f8fb}.hint{font-size:12px;color:var(--muted)}
+    .codebox{display:none;margin:20px 0 0 40px;padding:17px 18px;border:1px solid #dfe8fa;background:#f7f9ff;border-radius:14px}.codebox.show{display:flex;align-items:center;justify-content:space-between;gap:15px}.code-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}.code{font-size:25px;font-weight:800;letter-spacing:.2em;margin-top:4px;font-variant-numeric:tabular-nums}.copy{border:1px solid #dbe3f1;background:white;color:var(--blue);border-radius:9px;padding:9px 12px;font-size:13px;font-weight:700}.room-input{display:flex;max-width:400px;gap:9px;margin-left:40px}.room-input input{flex:1;min-width:0;border:1px solid #dce3ed;border-radius:10px;padding:12px 13px;font-size:16px;letter-spacing:.12em;text-transform:uppercase;outline:none}.room-input input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #2865dc20}.room-input input::placeholder{font-size:13px;letter-spacing:0;text-transform:none}
+    .transfer{display:none;padding:22px 32px 27px;background:#fbfcfe;border-top:1px solid var(--line)}.transfer.show{display:block}.transfer-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;gap:12px}.transfer-top h3{margin:0;font-size:15px}.room-status{color:var(--green);font-size:12px;font-weight:650}.drop{min-height:126px;border:1.5px dashed #cdd7e6;border-radius:14px;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;transition:.15s;background:white}.drop.over{border-color:var(--blue);background:#f6f9ff}.drop strong{display:block;font-size:14px}.drop span{color:var(--muted);font-size:12px;display:block;margin-top:5px}.drop button{margin-top:12px}.file-input{display:none}.text-input{width:100%;min-height:106px;resize:vertical;padding:13px 14px;border:1px solid #dce3ed;border-radius:12px;outline:none;color:var(--ink);line-height:1.5}.text-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #2865dc20}.text-input::placeholder{color:#8290a1}.send-submit{margin-top:14px}.staged-list{display:grid;gap:7px;margin-top:12px}.staged-item{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;background:#fff;padding:9px 12px;font-size:12px}.staged-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.remove-item{border:0;background:transparent;color:#8995a6;font-size:18px;line-height:1;padding:2px 5px}.list{margin-top:15px;display:grid;gap:9px}.file{display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:white;border-radius:12px;padding:12px}.fileicon{width:36px;height:36px;border-radius:10px;background:#f0f4fa;display:grid;place-items:center;color:#5c7090;flex:none}.fileicon svg{width:18px}.filemeta{min-width:0;flex:1}.filename{font-size:13px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.filesize{font-size:11px;color:var(--muted);margin-top:3px}.download{border:1px solid #dbe3f1;background:white;color:var(--blue);border-radius:8px;padding:8px 10px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap}.copy-text{border:1px solid #dbe3f1;background:white;color:var(--blue);border-radius:8px;padding:8px 10px;font-size:12px;font-weight:700;white-space:nowrap}.copy-fallback{width:100%;min-height:90px;border:1px solid var(--line);border-radius:10px;padding:10px;background:white;color:var(--ink);font:inherit;font-size:13px;line-height:1.5}.progress{height:4px;margin-top:7px;background:#e8edf4;border-radius:5px;overflow:hidden}.bar{height:100%;background:var(--blue);width:0;transition:width .2s}.empty{font-size:12px;color:var(--muted);text-align:center;padding:14px}.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,15px);opacity:0;background:#142338;color:white;padding:11px 16px;border-radius:10px;font-size:13px;transition:.2s;pointer-events:none}.toast.show{transform:translate(-50%,0);opacity:1}.foot{max-width:720px;margin:18px auto 0;text-align:center;color:#8190a2;font-size:11px;line-height:1.6}.foot strong{color:#56677d;font-weight:650}
+    @media(max-width:600px){.shell{padding:19px 14px 36px}.top{margin-bottom:38px}.privacy{font-size:11px}.hero{margin-bottom:25px}.hero p{font-size:14px}.step{padding:23px 18px}.actions,.room-input,.codebox{margin-left:0}.actions .primary{width:100%}.codebox{padding:14px}.code{font-size:21px}.transfer{padding:18px}.drop{min-height:115px}.file{gap:9px;padding:10px}.download{padding:8px}.stephead{gap:10px}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="top">
+      <div class="brand"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0L7 9m5-5 5 5M5 14v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5"/></svg></span>PocketDrop</div>
+      <div class="privacy"><i class="dot"></i>No account needed</div>
+    </header>
+    <section class="hero">
+      <div class="eyebrow">Your devices, connected</div>
+      <h1>Drop it here.<br>Pick it up there.</h1>
+      <p>Send files, folders, or copied text from one device and pick them up on another. No email or sign-in.</p>
+    </section>
+    <section class="card" aria-label="File transfer">
+      <div class="step">
+        <div class="stephead"><span class="num">1</span><div><h2>Send files or text</h2><p>Drop files or folders here, or paste text below. Your code appears after you submit.</p></div></div>
+        <div class="drop" id="sendDrop"><div><strong>Drag files or folders here</strong><span>Photos, documents, folders, and more · up to 100 MB per file</span><div class="actions" style="justify-content:center;margin:12px 0 0"><button class="secondary" id="chooseFiles" type="button">Choose files</button><button class="secondary" id="chooseFolder" type="button">Choose folder</button></div></div></div>
+        <input class="file-input" type="file" id="files" multiple>
+        <input class="file-input" type="file" id="folders" webkitdirectory directory multiple>
+        <div class="staged-list" id="stagedList"></div>
+        <textarea class="text-input" id="textInput" placeholder="Or paste text here…" aria-label="Text to send"></textarea>
+        <button class="primary send-submit" id="sendSubmit" type="button">Submit and generate code</button>
+        <div class="codebox" id="codebox"><div><div class="code-label">Share this 4-digit code</div><div class="code" id="codeText">—</div></div><button class="copy" id="copy">Copy code</button></div>
+      </div>
+      <div class="step">
+        <div class="stephead"><span class="num">2</span><div><h2>Receive on another device</h2><p>Open this website there and enter the code to get your files or copy your text.</p></div></div>
+        <form class="room-input" id="joinForm"><input id="roomCode" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" autocomplete="one-time-code" placeholder="Enter 4-digit code" aria-label="4-digit room code"><button class="secondary" type="submit">Receive</button></form>
+      </div>
+      <section class="transfer" id="transfer" aria-live="polite">
+        <div class="transfer-top"><h3 id="transferTitle">Items in this room</h3><span class="room-status" id="roomStatus">Connected</span></div>
+        <div class="list" id="list"><div class="empty">Waiting for files…</div></div>
+      </section>
+    </section>
+    <p class="foot"><strong>Keep the code private:</strong> anyone who has it can access your transfer. The room expires after 1 hour. Only five incorrect code attempts are allowed per IP every 15 minutes.</p>
+  </main>
+  <div class="toast" id="toast"></div>
+<script>
+  const $ = s => document.querySelector(s);
+  const sendBtn = $('#sendSubmit'), joinForm = $('#joinForm'), codeInput = $('#roomCode');
+  const codeBox = $('#codebox'), codeText = $('#codeText'), transfer = $('#transfer');
+  const fileInput = $('#files'), folderInput = $('#folders'), list = $('#list'), drop = $('#sendDrop'), toast = $('#toast');
+  const stagedList = $('#stagedList'), textInput = $('#textInput');
+  let activeCode = '', activeMode = '', poller = null, knownIds = new Set(), toastTimer, staged = [];
+
+  function notify(message) { toast.textContent = message; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 2600); }
+  function bytes(n) { if (n < 1024) return `${n} B`; if (n < 1024*1024) return `${(n/1024).toFixed(1)} KB`; if (n < 1024*1024*1024) return `${(n/1024/1024).toFixed(1)} MB`; return `${(n/1024/1024/1024).toFixed(1)} GB`; }
+  async function request(url, options = {}) { const response = await fetch(url, options); const data = await response.json().catch(() => ({})); if (!response.ok) throw new Error(data.error || 'Something went wrong.'); return data; }
+  function legacyCopy(value) {
+    const area = document.createElement('textarea');
+    area.value = value; area.setAttribute('readonly', '');
+    area.style.position = 'fixed'; area.style.top = '0'; area.style.left = '-9999px';
+    document.body.append(area); area.focus(); area.select(); area.setSelectionRange(0, area.value.length);
+    let copied = false;
+    try { copied = document.execCommand('copy'); } catch {}
+    area.remove();
+    return copied;
+  }
+  function showRoom(code, mode) {
+    activeCode = code; activeMode = mode; codeText.textContent = code;
+    codeBox.classList.toggle('show', mode === 'send'); transfer.classList.add('show');
+    $('#transferTitle').textContent = mode === 'send' ? `Sent items · room ${code}` : `Items to receive · room ${code}`;
+    codeInput.value = code;
+    knownIds.clear(); list.innerHTML = '<div class="empty">Waiting for files…</div>';
+    if (poller) clearInterval(poller);
+    refresh(); poller = setInterval(refresh, 2500);
+  }
+  function renderStaged() {
+    stagedList.replaceChildren();
+    staged.forEach((item, index) => {
+      const row = document.createElement('div'); row.className = 'staged-item';
+      const name = document.createElement('span'); name.className = 'staged-name'; name.textContent = `${item.name} · ${bytes(item.file.size)}`;
+      const remove = document.createElement('button'); remove.className = 'remove-item'; remove.type = 'button'; remove.setAttribute('aria-label', `Remove ${item.name}`); remove.textContent = '×';
+      remove.addEventListener('click', () => { staged.splice(index, 1); renderStaged(); });
+      row.append(name, remove); stagedList.append(row);
+    });
+  }
+  function addFiles(files, nameFor = file => file.webkitRelativePath || file.name) {
+    for (const file of files) staged.push({ file, name: nameFor(file), kind: 'file' });
+    renderStaged();
+  }
+  fileInput.addEventListener('change', () => { addFiles(fileInput.files); fileInput.value = ''; });
+  folderInput.addEventListener('change', () => { addFiles(folderInput.files); folderInput.value = ''; });
+  $('#chooseFiles').addEventListener('click', () => fileInput.click());
+  $('#chooseFolder').addEventListener('click', () => folderInput.click());
+  async function walkEntry(entry, prefix = '') {
+    if (entry.isFile) {
+      const file = await new Promise((resolve, reject) => entry.file(resolve, reject));
+      return [{ file, name: `${prefix}${file.name}`, kind: 'file' }];
+    }
+    if (!entry.isDirectory) return [];
+    const reader = entry.createReader(); let entries = [];
+    while (true) {
+      const batch = await new Promise((resolve, reject) => reader.readEntries(resolve, reject));
+      if (!batch.length) break;
+      entries = entries.concat(batch);
+    }
+    const nested = await Promise.all(entries.map(child => walkEntry(child, `${prefix}${entry.name}/`)));
+    return nested.flat();
+  }
+  for (const event of ['dragenter','dragover']) drop.addEventListener(event, e => { e.preventDefault(); drop.classList.add('over'); });
+  for (const event of ['dragleave','drop']) drop.addEventListener(event, e => { e.preventDefault(); drop.classList.remove('over'); });
+  drop.addEventListener('drop', async e => {
+    const entries = [...(e.dataTransfer.items || [])].map(item => item.webkitGetAsEntry?.()).filter(Boolean);
+    try {
+      if (entries.length) staged = staged.concat((await Promise.all(entries.map(entry => walkEntry(entry)))).flat());
+      else addFiles(e.dataTransfer.files);
+      renderStaged();
+    } catch { notify('Could not read that folder. Try Choose folder instead.'); }
+  });
+
+  sendBtn.addEventListener('click', async () => {
+    const items = staged.slice();
+    const text = textInput.value;
+    if (!items.length && !text.trim()) return notify('Add files, a folder, or text first.');
+    if (text.length) items.push({ file: new Blob([text], { type: 'text/plain;charset=utf-8' }), name: 'Pasted text.txt', kind: 'text' });
+    if (items.length > 20) return notify('A room can contain up to 20 items.');
+    sendBtn.disabled = true; sendBtn.textContent = 'Preparing your transfer…';
+    try {
+      const result = await request('/api/rooms', { method: 'POST' });
+      showRoom(result.code, 'send');
+      staged = []; renderStaged(); textInput.value = '';
+      notify('Code created. Uploading your items…');
+      for (const item of items) await uploadItem(item);
+      notify('Your items are ready to receive.');
+    } catch (e) { notify(e.message); }
+    finally { sendBtn.disabled = false; sendBtn.textContent = 'Submit and generate code'; }
+  });
+  joinForm.addEventListener('submit', async e => {
+    e.preventDefault(); const code = codeInput.value.trim();
+    if (!/^\d{4}$/.test(code)) return notify('Enter the 4-digit code.');
+    try { await request(`/api/rooms/${code}`); showRoom(code, 'receive'); notify('Connected. Your items are below.'); }
+    catch (err) { notify(err.message); }
+  });
+  $('#copy').addEventListener('click', async () => { try { await navigator.clipboard.writeText(activeCode); notify('Room code copied.'); } catch { codeInput.focus(); codeInput.select(); document.execCommand('copy'); notify('Room code copied.'); } });
+
+  async function uploadItem(item) {
+    if (item.file.size > 100*1024*1024) throw new Error(`${item.name} is over the 100 MB file limit.`);
+    const row = document.createElement('div'); row.className = 'file';
+    row.innerHTML = `<div class="fileicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></div><div class="filemeta"><div class="filename"></div><div class="filesize">Uploading · 0%</div><div class="progress"><div class="bar"></div></div></div>`;
+    row.querySelector('.filename').textContent = item.name; list.prepend(row); removeEmpty();
+    await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', `/api/rooms/${activeCode}/files?name=${encodeURIComponent(item.name)}&kind=${item.kind}`);
+      xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+      xhr.upload.onprogress = e => { if (e.lengthComputable) { const p = Math.round(e.loaded/e.total*100); row.querySelector('.filesize').textContent = `Uploading · ${p}%`; row.querySelector('.bar').style.width = `${p}%`; } };
+      xhr.onload = () => { if (xhr.status >= 200 && xhr.status < 300) resolve(); else { try { reject(new Error(JSON.parse(xhr.responseText).error)); } catch { reject(new Error('Upload failed.')); } } };
+      xhr.onerror = () => reject(new Error('Upload interrupted.')); xhr.send(item.file);
+    });
+    row.remove(); await refresh();
+  }
+  function removeEmpty() { const empty = list.querySelector('.empty'); if (empty) empty.remove(); }
+  async function refresh() {
+    if (!activeCode) return;
+    try {
+      const data = await request(`/api/rooms/${activeCode}`);
+      $('#roomStatus').textContent = 'Connected';
+      if (!data.files.length && !list.children.length) list.innerHTML = '<div class="empty">Waiting for files…</div>';
+      for (const file of data.files) {
+        if (knownIds.has(file.id)) continue; knownIds.add(file.id); removeEmpty();
+        const row = document.createElement('div'); row.className = 'file';
+        row.innerHTML = `<div class="fileicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></div><div class="filemeta"><div class="filename"></div><div class="filesize"></div></div><a class="download" download>Download</a>`;
+        row.querySelector('.filename').textContent = file.name; row.querySelector('.filesize').textContent = bytes(file.size);
+        const link = row.querySelector('.download'); link.href = `/api/rooms/${activeCode}/files/${encodeURIComponent(file.id)}`;
+        if (file.kind === 'text') {
+          const copy = document.createElement('button'); copy.className = 'copy-text'; copy.type = 'button'; copy.textContent = 'Copy text';
+          copy.addEventListener('click', async () => {
+            try {
+              const response = await fetch(link.href); if (!response.ok) throw new Error('Text is no longer available.');
+              const value = await response.text();
+              try { await navigator.clipboard.writeText(value); notify('Text copied to clipboard.'); return; } catch {}
+              if (legacyCopy(value)) { notify('Text copied to clipboard.'); return; }
+              let fallback = row.nextElementSibling;
+              if (!fallback || !fallback.classList.contains('copy-fallback')) { fallback = document.createElement('textarea'); fallback.className = 'copy-fallback'; fallback.readOnly = true; fallback.setAttribute('aria-label', 'Select and copy the received text'); row.after(fallback); }
+              fallback.value = value; fallback.focus(); fallback.select(); fallback.setSelectionRange(0, fallback.value.length);
+              notify('Text is selected. Use Copy from your device menu.');
+            } catch (error) { notify(error.message || 'Could not load the text.'); }
+          });
+          row.replaceChild(copy, link);
+        }
+        list.prepend(row);
+      }
+      if (!data.files.length && !list.querySelector('.file')) list.innerHTML = '<div class="empty">Waiting for files…</div>';
+    } catch (e) {
+      $('#roomStatus').textContent = 'Room expired'; clearInterval(poller); poller = null; activeCode = ''; notify(e.message);
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "name": "pocketdrop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Simple temporary file sharing between your devices, with no account required.",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
+}
